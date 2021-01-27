@@ -1,0 +1,9 @@
+SELECT DISTINCT X,Y
+FROM Functions
+WHERE
+    (X,Y) IN (SELECT Y,X
+              FROM Functions
+              GROUP BY Y,X
+              HAVING COUNT(*)>1 OR X != Y) 
+    AND X<=Y
+ORDER BY X;
