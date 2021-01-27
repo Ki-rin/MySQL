@@ -1,0 +1,16 @@
+/*Print the respective hacker_id, name of hackers who achieved full scores for more than one challenge. 
+Order your output in descending order by the total number of challenges in which the hacker earned a full score. 
+If more than one hacker received full scores in same number of challenges, then sort them by ascending hacker_id.*/
+
+SELECT S.hacker_id, H.name
+
+FROM Submissions S
+INNER JOIN Challenges C ON C.challenge_id = S.challenge_id 
+INNER JOIN Difficulty D ON D.difficulty_level = C.difficulty_level
+INNER JOIN Hackers H ON S.hacker_id = H.hacker_id
+
+GROUP BY S.hacker_id, H.name
+
+HAVING SUM(IF((S.score - D.score)=0,1,0))>1
+
+ORDER BY SUM(IF((S.score - D.score)=0,1,0)) DESC, S.hacker_id ASC;
