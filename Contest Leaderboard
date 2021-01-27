@@ -1,0 +1,11 @@
+/* The total score of a hacker is the sum of their maximum scores for all of the challenges. Write a query to print the hacker_id, name, and total score of the hackers ordered by the descending score. If more than one hacker achieved the same total score, then sort the result by ascending hacker_id. Exclude all hackers with a total score of 0 from your result.*/
+
+SELECT i, n, sum(sc)
+FROM
+   (SELECT S.hacker_id i, H.name n, MAX(S.score) sc, S.challenge_id cl
+    FROM Submissions S
+    INNER JOIN Hackers H ON S.hacker_id = H.hacker_id
+    GROUP BY i, n, cl ) as T1 
+WHERE sc>0        
+GROUP BY i, n 
+ORDER BY SUM(sc) DESC, i ASC;
